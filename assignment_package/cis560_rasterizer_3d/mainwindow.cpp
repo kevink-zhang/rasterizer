@@ -22,7 +22,19 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
     {
     //The key shortcuts for the other menu commands were set in Qt's GUI
     //editor. This one was implemented as a key press event for illustration purposes.
-    case Qt::Key_Escape : on_actionQuit_Esc_triggered();  break;
+        case Qt::Key_Escape : on_actionQuit_Esc_triggered();  break;
+        case Qt::Key_W : rasterizer.CAMERA.translateZ(0.5); break;
+        case Qt::Key_S : rasterizer.CAMERA.translateZ(-0.5); break;
+        case Qt::Key_A : rasterizer.CAMERA.translateX(-0.5); break;
+        case Qt::Key_D : rasterizer.CAMERA.translateX(0.5); break;
+        case Qt::Key_Q : rasterizer.CAMERA.translateY(-0.5); break;
+        case Qt::Key_E : rasterizer.CAMERA.translateY(0.5); break;
+        case Qt::Key_Up : rasterizer.CAMERA.rotateRight(-5); break;
+        case Qt::Key_Down : rasterizer.CAMERA.rotateRight(5); break;
+        case Qt::Key_Right : rasterizer.CAMERA.rotateUp(-5); break;
+        case Qt::Key_Left : rasterizer.CAMERA.rotateUp(5); break;
+        case Qt::Key_Z : rasterizer.CAMERA.rotateForward(5); break;
+        case Qt::Key_X : rasterizer.CAMERA.rotateForward(-5); break;
     }
 
     rendered_image = rasterizer.RenderScene();

@@ -1,0 +1,2 @@
+Sources used:
+ - Class slides to reference formulae for perspective and barycentric interpolation 

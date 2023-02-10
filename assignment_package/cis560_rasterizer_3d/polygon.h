@@ -29,6 +29,38 @@ struct Triangle
     unsigned int m_indices[3];
 };
 
+struct Segment{
+    glm::vec2 pt1;
+    glm::vec2 pt2;
+
+    Segment(glm::vec2 e1, glm::vec2 e2)
+        : pt1(e1), pt2(e2){
+
+    }
+    bool getIntersection(int y, float* x) const {
+        if(pt1[1] < pt2[1]){
+            if(y >= pt1[1] && y <= pt2[1]){
+                if (pt2[1]-pt1[1] == 0) *x = pt1[0];
+                else *x = pt1[0] + (pt2[0]-pt1[0]) * (y-pt1[1]) / (pt2[1]-pt1[1]);
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            if(y >= pt2[1] && y <= pt1[1]){
+                if (pt2[1]-pt1[1] == 0) *x = pt1[0];
+                else *x = pt2[0] + (pt1[0]-pt2[0]) * (y-pt2[1]) / (pt1[1]-pt2[1]);
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+};
+
 class Polygon
 {
 public:
@@ -73,8 +105,19 @@ public:
 
     Vertex& VertAt(unsigned int);
     Vertex VertAt(unsigned int) const;
+
+    //for bounding box
+    void computeBoundingBox(glm::vec2 &pt1,glm::vec2 &pt2,glm::vec2 &pt3, glm::vec2 &pos, glm::vec2 &dim) const;
+    //for color
+    glm::vec4 computeColor(const Triangle &t, glm::vec2 pos) const;
+    glm::vec2 computeUV(const Triangle &t, glm::vec2 p1, glm::vec2 p2, glm::vec2 p3, glm::vec2 pos) const;
+    glm::vec4 computeNormal(const Triangle &t, glm::vec2 p1, glm::vec2 p2, glm::vec2 p3, glm::vec2 pos) const;
 };
 
 // Returns the color of the pixel in the image at the specified texture coordinates.
 // Returns white if the image is a null pointer
 glm::vec3 GetImageColor(const glm::vec2 &uv_coord, const QImage* const image);
+
+
+//does z-interpolation
+float ZInterpolation(glm::vec2 p1, glm::vec2 p2, glm::vec2 p3, float z1, float z2, float z3, glm::vec2 pos);
